@@ -1,0 +1,16 @@
+# Ignore all raw genomic data
+data/raw/*
+!data/raw/.gitkeep
+
+# Ignore processed large files
+*.gb
+*.fasta
+*.csv
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.so
+.env
+venv/
+.DS_Store

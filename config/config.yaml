@@ -1,0 +1,24 @@
+# Centralized pipeline parameters
+# Modify these values here, not in your Python scripts
+accessions:
+  lsdv_ref: "MN072619.1"
+  sppv_ref: "AY077833"
+  gtpv_ref: "AY077835"
+
+thresholds:
+  conservation_identity: 90.0
+  mhc1_percent_rank: 0.5
+  mhc2_percent_rank: 2.0
+  proteasome_cleavage: 0.50
+  tap_transport: 0.05
+  vaxijen_score: 0.40
+
+target_alleles:
+  bola_class1:
+    - "BoLA-1:02301"
+    - "BoLA-2:01201"
+    - "BoLA-A11"
+    - "BoLA-T2c"
+  bola_class2:
+    - "BoLA-DRB3*00201"
+    - "BoLA-DRB3*01101"

@@ -1,33 +1,18 @@
 import os
+import time
 from Bio import Entrez
+from Bio import SeqIO
 
-# Register your identity with NCBI Entrez API
+# Register your identity with NCBI. 
+# Replace with your actual NCBI API key if you have one to increase rate limits.
 Entrez.email = "bidhanji@gmail.com"
-# Optional: Set Entrez.api_key = "YOUR_API_KEY" if you have an NCBI account key
+# Entrez.api_key = "YOUR_API_KEY_HERE"
 
-def download_ncbi_records(
-    search_query: str, 
-    output_file: str = "sequences.gb", 
-    ret_type: str = "gb", 
-    batch_size: str = 100
-):
-    """
-    Executes a search query against NCBI Nucleotide database and downloads records in batches.
+def fetch_and_save_genomes(search_query, output_dir):
+    os.makedirs(output_dir, exist_ok=True)
     
-    Parameters:
-    search_query : Term to search (e.g., 'Lumpy skin disease virus[Organism] AND complete genome[Title]')
-    output_file  : Local file path to save concatenated records
-    ret_type     : 'gb' for full GenBank format, 'fasta' for FASTA format
-    batch_size   : Number of records to pull per HTTP request
-    """
     print(f"Executing search: {search_query}")
-    
-    # Search database and store results on NCBI server environment
-    search_handle = Entrez.esearch(
-        db="nucleotide", 
-        term=search_query, 
-        usehistory="y"
-    )
+    search_handle = Entrez.esearch(db="nucleotide", term=search_query, usehistory="y", retmax=10000)
     search_results = Entrez.read(search_handle)
     search_handle.close()
     
@@ -35,40 +20,58 @@ def download_ncbi_records(
     webenv = search_results["WebEnv"]
     query_key = search_results["QueryKey"]
     
-    print(f"Found {count} matching records.")
+    print(f"Found {count} matching records. Starting individual file downloads.")
+    
     if count == 0:
+        print("No records found. Check your search query.")
         return
 
-    # Download in chunks to avoid HTTP 500 timeouts
-    with open(output_file, "w") as out_stream:
-        for start in range(0, count, batch_size):
-            end = min(count, start + batch_size)
-            print(f"Downloading records {start + 1} to {end} of {count}...")
+    batch_size = 50
+    for start in range(0, count, batch_size):
+        end = min(count, start + batch_size)
+        
+        attempt = 0
+        max_attempts = 5
+        
+        while attempt < max_attempts:
+            try:
+                fetch_handle = Entrez.efetch(
+                    db="nucleotide",
+                    rettype="gb",
+                    retmode="text",
+                    retstart=start,
+                    retmax=batch_size,
+                    webenv=webenv,
+                    query_key=query_key
+                )
+                
+                records = SeqIO.parse(fetch_handle, "genbank")
+                for record in records:
+                    # Sanitize filename to prevent OS errors
+                    accession = record.id.replace(".", "_").replace("/", "_")
+                    filename = os.path.join(output_dir, f"{accession}.gb")
+                    with open(filename, "w") as f:
+                        SeqIO.write(record, f, "genbank")
+                        
+                fetch_handle.close()
+                print(f"Successfully downloaded batch {start + 1} to {end}.")
+                break
+                
+            except Exception as e:
+                attempt += 1
+                print(f"Network error at batch {start + 1} to {end}. Retrying attempt {attempt}. Error: {e}")
+                time.sleep(5 * attempt)
+                
+        if attempt == max_attempts:
+            print(f"Failed to download batch {start + 1} to {end} after {max_attempts} attempts. Skipping.")
             
-            fetch_handle = Entrez.efetch(
-                db="nucleotide",
-                rettype=ret_type,
-                retmode="text",
-                retstart=start,
-                retmax=batch_size,
-                webenv=webenv,
-                query_key=query_key
-            )
-            
-            data = fetch_handle.read()
-            fetch_handle.close()
-            out_stream.write(data)
-
-    print(f"Finished. File saved as {output_file}")
+        # Respect NCBI rate limits (3 requests per second without API key)
+        time.sleep(0.4)
 
 if __name__ == "__main__":
-    # Specify your target pathogen, locus, or host query string
-    QUERY = '"Lumpy skin disease virus"[Organism] AND complete genome[Title]'
+    # This query specifically targets complete genomes, avoiding partial fragments
+    query = '"Lumpy skin disease virus"[Organism] AND "complete genome"[Filter]'
+    target_directory = "data/raw"
     
-    # Save as full GenBank flat file format
-    download_ncbi_records(
-        search_query=QUERY, 
-        output_file="lsdv_complete_genomes.gb", 
-        ret_type="gb", 
-        batch_size=50
-    )
+    fetch_and_save_genomes(query, target_directory)
+    print("Download process completed.")

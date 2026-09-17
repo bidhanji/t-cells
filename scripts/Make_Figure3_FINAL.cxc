@@ -1,0 +1,50 @@
+open C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/data/processed/docked_complex.pdb
+
+addh
+
+set bgColor white
+lighting full
+lighting shadows false
+graphics silhouettes true
+
+hide atoms
+hide cartoons
+hide surfaces
+
+# TLR4 (chain B): blue semi-transparent surface
+show /B surfaces
+color /B cornflowerblue
+transparency 50 /B
+
+# MD-2 co-receptor (chains C,D): gray surface
+show /C /D surfaces
+color /C /D slategray
+transparency 70 /C /D
+
+# MEV vaccine (chain A): red cartoon
+show /A cartoons
+color /A firebrick
+
+# Interface: gold patch where MEV touches TLR4
+color /B z<5 /A gold
+color /A z<5 /B gold
+
+# Hydrogen bonds across the interface
+hbonds /A /B color black linewidth 2
+
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig3_A_front.png supersample 3 width 3000 height 2400
+
+turn y 90
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig3_B_side.png supersample 3 width 3000 height 2400
+
+turn y -90
+turn x -90
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig3_C_top.png supersample 3 width 3000 height 2400
+
+turn x 90
+turn y 180
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig3_D_back.png supersample 3 width 3000 height 2400

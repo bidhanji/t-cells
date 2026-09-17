@@ -1,0 +1,41 @@
+open C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/data/processed/mev_construct_3D.pdb
+
+set bgColor white
+lighting full
+lighting shadows false
+graphics silhouettes true
+
+# ---------- PANEL A: rainbow cartoon + sidechain sticks ----------
+hide atoms
+show cartoons
+rainbow #1
+cartoon style xsection round width 1.2 thickness 1.2
+show atoms
+style stick
+size stickRadius 0.12
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig2_v3_A_cartoon_sticks.png supersample 3 width 3000 height 2400
+
+# ---------- PANEL B: molecular surface, rainbow ----------
+hide atoms
+hide cartoons
+surface #1
+rainbow #1
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig2_v3_B_surface_rainbow.png supersample 3 width 3000 height 2400
+
+# ---------- PANEL C: electrostatic surface (red - / blue +) ----------
+hide surfaces
+surface #1
+coulombic #1
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig2_v3_C_surface_coulombic.png supersample 3 width 3000 height 2400
+
+# ---------- PANEL D: cartoon + semi-transparent surface ----------
+hide surfaces
+show cartoons
+rainbow #1
+show surfaces
+transparency 70 #1 target s
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig2_v3_D_cartoon_ghost.png supersample 3 width 3000 height 2400

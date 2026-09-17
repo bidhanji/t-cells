@@ -1,0 +1,49 @@
+open C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/data/processed/docked_complex.pdb
+
+addh
+set bgColor white
+lighting full
+lighting shadows false
+graphics silhouettes true
+
+hide atoms
+hide cartoons
+hide surfaces
+
+# TLR4 (chain B): blue semi-transparent surface
+show /B surfaces
+color /B cornflowerblue
+transparency 50 /B
+
+# MD-2 (chains C, D): gray surface
+show /C /D surfaces
+color /C /D slategray
+transparency 70 /C /D
+
+# MEV (chain A): red cartoon
+show /A cartoons
+color /A firebrick
+
+# Gold interface patch
+color /B z<5 /A gold
+color /A z<5 /B gold
+
+# Hydrogen bonds
+hbonds /A /B color black linewidth 2
+
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig3_style1_A_front.png supersample 1 width 2400 height 1920
+
+turn y 90
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig3_style1_B_side.png supersample 1 width 2400 height 1920
+
+turn y -90
+turn x -90
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig3_style1_C_top.png supersample 1 width 2400 height 1920
+
+turn x 90
+turn y 180
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig3_style1_D_back.png supersample 1 width 2400 height 1920

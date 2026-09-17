@@ -1,0 +1,40 @@
+open C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/data/processed/docked_complex.pdb
+
+addh
+hide atoms
+hide atoms
+
+show /A surfaces
+color /A cornflowerblue target s
+transparency 50 /A target s
+
+show /B cartoons
+color /B firebrick target ac
+cartoon style xsection round width 1.4 thickness 1.4
+
+color /A z<5 /B gold target s
+color /B z<5 /A gold target ac
+
+hbonds /A /B color black linewidth 2
+
+set bgColor white
+graphics silhouettes true
+lighting soft
+lighting shadows false
+
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig3_v2_A_front.png supersample 3 width 3000 height 2400
+
+turn y 90
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig3_v2_B_side.png supersample 3 width 3000 height 2400
+
+turn y -90
+turn x -90
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig3_v2_C_top.png supersample 3 width 3000 height 2400
+
+turn x 90
+turn y 180
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig3_v2_D_back.png supersample 3 width 3000 height 2400

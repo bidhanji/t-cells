@@ -1,0 +1,17 @@
+open C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/data/processed/mev_construct_3D.pdb
+
+set bgColor white
+lighting full
+lighting shadows false
+graphics silhouettes true
+
+hide atoms
+show cartoons
+rainbow #1
+
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig2_A_cartoon.png supersample 3 width 3000 height 2400
+
+turn y 90
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig2_B_side.png supersample 3 width 3000 height 2400

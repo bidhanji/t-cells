@@ -1,0 +1,39 @@
+open C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/data/processed/docked_complex.pdb
+
+addh
+set bgColor white
+lighting full
+lighting shadows false
+graphics silhouettes true
+
+hide atoms
+hide cartoons
+hide surfaces
+
+# All partners as cartoons
+show /B cartoons
+color /B cornflowerblue
+
+show /C /D cartoons
+color /C /D slategray
+
+show /A cartoons
+color /A firebrick
+
+# Gold interface residues shown as sticks on both partners
+show /A z<5 /B atoms
+style /A z<5 /B stick
+color /A z<5 /B gold
+show /B z<5 /A atoms
+style /B z<5 /A stick
+color /B z<5 /A gold
+
+# Hydrogen bonds
+hbonds /A /B color black linewidth 2
+
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig3_style2_A_cartoons.png supersample 1 width 2400 height 1920
+
+turn y 90
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig3_style2_B_cartoons_side.png supersample 1 width 2400 height 1920

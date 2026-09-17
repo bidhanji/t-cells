@@ -1,0 +1,32 @@
+open C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/data/processed/mev_construct_3D.pdb
+
+set bgColor white
+lighting full
+lighting shadows false
+graphics silhouettes true
+
+# ---- (A) Rainbow cartoon, N-terminus blue -> C-terminus red ----
+hide atoms
+show cartoons
+rainbow #1
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig2_A_rainbow.png supersample 1 width 2400 height 1920
+
+# ---- (B) pLDDT coloring (AlphaFold standard palette) ----
+color byattribute bfactor #1 palette 50,#fb9b06:70,#f7e04a:80,#4dc6ff:90,#0566e8
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig2_B_pLDDT.png supersample 1 width 2400 height 1920
+
+# ---- (E) Epitope mapping on cartoon ----
+# PLACEHOLDER RANGES - replace with your real epitope residue numbers
+color #1 & protein #b0b0b0
+color #1:19-51 skyblue
+color #1:57-71 tomato\ncolor #1:77-91 tomato\ncolor #1:97-111 tomato
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig2_E_epitope_cartoon.png supersample 1 width 2400 height 1920
+
+# ---- (F) Epitope mapping on surface ----
+hide cartoons
+show surfaces
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig2_F_epitope_surface.png supersample 1 width 2400 height 1920

@@ -1,0 +1,64 @@
+# ChimeraX Visualization Script for MEV-TLR4 Docking
+
+open "C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/data/processed/docked_complex.pdb"
+
+wait 1
+
+# Close all extra docking poses -- keep only top-ranked pose (#1)
+close #2
+close #3
+close #4
+close #5
+close #6
+close #7
+close #8
+close #9
+close #1.1
+
+wait 1
+
+# HIDE ABSOLUTELY EVERYTHING in the model first
+hide #1
+hide #1 cartoons
+hide #1 ribbons
+
+wait 1
+
+# --- Chain A (TLR4): surface only ---
+# Surface creation works regardless of atom visibility
+select #1/A
+color sel dodgerblue
+~select
+surface #1/A
+
+# --- Chain B (MEV): atoms only, styled as sticks, colored red ---
+show #1/B atoms
+hide #1/B cartoons
+hide #1/B ribbons
+style #1/B stick
+select #1/B
+color sel red
+~select
+
+# Publication settings
+set bgColor white
+lighting soft
+
+view
+wait 1
+
+# Front view
+save "C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Figure3_MEV_TLR4_Docking.png" width 3000 height 3000 supersample 3
+
+# Side view
+turn y 90
+wait 1
+save "C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Figure3_MEV_TLR4_Docking_Side.png" width 3000 height 3000 supersample 3
+
+# Top view
+turn y 90
+turn x 90
+wait 1
+save "C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Figure3_MEV_TLR4_Docking_Top.png" width 3000 height 3000 supersample 3
+
+echo "Done. 3 images saved to figures/"

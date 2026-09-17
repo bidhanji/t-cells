@@ -1,0 +1,23 @@
+open C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/data/processed/docked_complex.pdb
+
+set bgColor white
+lighting full
+lighting shadows false
+
+hide atoms
+hide cartoons
+hide surfaces
+
+show /B surfaces
+color /B cornflowerblue
+transparency 50 /B
+
+show /A cartoons
+color /A firebrick
+
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig3_A_front.png supersample 3 width 3000 height 2400
+
+turn y 90
+view
+save C:/Users/ACER/Desktop/Capripox_TCell_Epitope_Discovery/figures/Fig3_B_side.png supersample 3 width 3000 height 2400
